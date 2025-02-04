@@ -2,10 +2,7 @@ package com.desafio_picpay.domain.transaction;
 
 import com.desafio_picpay.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.core.SpringVersion;
 
 import java.math.BigDecimal;
@@ -15,6 +12,7 @@ import java.util.Objects;
 @Entity(name = "transactions")
 @Table(name = "transactions")
 @AllArgsConstructor
+@NoArgsConstructor
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
