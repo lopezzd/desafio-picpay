@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -64,5 +65,9 @@ public class TransactionService {
     public boolean autorizeTransaction(User sender, BigDecimal value){
         Random random = new Random();
         return random.nextBoolean();
+    }
+
+    public List<Transaction> getAllTransactions(){
+        return this.repository.findAll();
     }
 }
