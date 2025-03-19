@@ -18,8 +18,8 @@ import java.util.Objects;
 @NoArgsConstructor
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     private String firstName;
     private String lastName;
 
@@ -44,11 +44,11 @@ public class User implements UserDetails {
         this.userType = data.userType();
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
