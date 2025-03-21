@@ -20,6 +20,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
     private String firstName;
     private String lastName;
 
@@ -42,6 +43,9 @@ public class User implements UserDetails {
         this.password = data.password();
         this.balance = data.balance();
         this.userType = data.userType();
+    }
+
+    public User(String firstName, String lastName, String document, String email, String password, BigDecimal balance, UserType userType) {
     }
 
     public String getId() {
