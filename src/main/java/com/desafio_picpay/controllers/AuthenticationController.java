@@ -1,18 +1,15 @@
 package com.desafio_picpay.controllers;
 
 import com.desafio_picpay.domain.user.User;
+import com.desafio_picpay.dto.AuthResponseDTO;
 import com.desafio_picpay.dto.AuthenticationDTO;
 import com.desafio_picpay.dto.UserDTO;
 import com.desafio_picpay.repositories.UserRepository;
-import com.desafio_picpay.services.UserService;
-import com.desafio_picpay.utils.ValidarCPF;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
+import com.desafio_picpay.services.AuthorizationService;
+import com.desafio_picpay.services.TokenService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,38 +17,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("auth")
+@RequiredArgsConstructor
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserRepository repository;
+    private final AuthenticationManager authenticationManager;
+    private final AuthorizationService authorizationService;
+    private final TokenService tokenService;
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Validated AuthenticationDTO data){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
+    public ResponseEntity login(@RequestBody AuthenticationDTO data) {
 
-        return ResponseEntity.ok().build();
+        User user = this.repository.findByEmail(data.email()).orElseThrow(() -> new RuntimeException("User not found"));
+        if (passwordEncoder.matches(data.password(), user.getPassword())) {
+            String token = this.tokenService.generateToken(user);
+            return ResponseEntity.ok(new AuthResponseDTO(user.getUsername(), token));
+        }
+        return ResponseEntity.badRequest().body("Credênciais incorretas");
     }
-
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Validated UserDTO data){
-        if(this.repository.findUserByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
+    public ResponseEntity<User> createUser(@RequestBody @Validated UserDTO data) {
+        Optional<User> createdUser = authorizationService.createUser(data);
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.firstName(), data.lastName(), data.document(), data.email(), encryptedPassword, data.balance(), data.userType());
-
-        this.repository.save(newUser);
-
-        return ResponseEntity.ok().build();
+        if (createdUser.isPresent()) {
+            return ResponseEntity.ok(createdUser.get());
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
-
 }
+

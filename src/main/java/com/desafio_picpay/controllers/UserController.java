@@ -24,20 +24,6 @@ public class UserController {
     @Autowired
     private UserRepository repository;
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody UserDTO user){
-
-        if((this.repository.findUserByEmail(user.email()) != null) || (this.repository.findUserByDocument(user.document()) != null)) return ResponseEntity.badRequest().build();
-
-        String encryptedPassword = new BCryptPasswordEncoder().encode(user.password());
-
-        UserDTO encryptedPasswordUser = new UserDTO(user.firstName(), user.lastName(), user.document(), user.email(), encryptedPassword, user.balance(), user.userType());
-
-        User newUser = userService.createUser(encryptedPasswordUser);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-    }
-
-
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
