@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class TransactionService {
@@ -66,4 +67,12 @@ public class TransactionService {
     public List<Transaction> getAllTransactions(){
         return this.repository.findAll();
     }
+
+    public List<TransactionDTO> getTransactionsByUserId(UUID userId) {
+        List<Transaction> transactions = this.repository.findBySenderId(userId);
+        return transactions.stream()
+                .map(TransactionDTO::fromEntity)
+                .toList();
+    }
+
 }

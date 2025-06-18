@@ -3,11 +3,13 @@ package com.desafio_picpay.services;
 import com.desafio_picpay.domain.user.User;
 import com.desafio_picpay.domain.user.UserType;
 import com.desafio_picpay.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -25,7 +27,7 @@ public class UserService {
         }
     }
 
-    public User findUserById(String id) throws Exception {
+    public User findUserById(UUID id) throws Exception {
         return this.repository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado!"));
     }
 
@@ -40,4 +42,16 @@ public class UserService {
     public List<User> getAllUsers() {
         return this.repository.findAll();
     }
+
+    /*
+    public User deleteUser(UUID id) {
+
+        var user = this.repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        this.repository.deleteUser(user);
+        return user;
+    }
+*/
+
 }
