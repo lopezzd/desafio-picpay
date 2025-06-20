@@ -1,71 +1,56 @@
-# 🏦 Desafio PicPay - Simulação de Transições
+# 🚧 Branch Develop – Em Desenvolvimento
 
-O desafio [PicPay](https://github.com/PicPay/picpay-desafio-backend) consiste em uma plataforma de pagamentos que permite o depósito e a transferência de dinheiro entre usuários. A plataforma conta com dois tipos de usuários:
+Esta é a branch `develop` do projeto **Desafio PicPay – Simulação de Transações**, utilizada para desenvolvimento contínuo, testes e implementação de novas funcionalidades antes de serem promovidas para `main`.
 
+> ⚠️ Esta branch pode conter código instável ou recursos em construção.
 
-### 🚀 Tecnologias Utilizadas
-- Java 23 (Não LTS)
+---
+
+## 🔨 Funcionalidades em Desenvolvimento
+
+### ✅ Refatoração de Código
+- Separação de responsabilidades nas camadas `Controller`, `Service` e `Repository`.
+- Uso de exceções customizadas com `@ControllerAdvice` para mensagens mais claras de erro.
+
+### ✅ Melhorias no Processo de Transferência
+- Garantia de transações mais seguras e atômicas com rollback em caso de falha.
+- Implementação mais robusta do serviço de autorização (mock).
+
+### ✅ Novas Funcionalidades
+- Endpoint de **consulta de transações por usuário** (`GET /users/{id}/transactions`).
+- Preparação para envio real de **notificações externas** (POST).
+- Estruturação inicial de testes de integração (JUnit + Testcontainers).
+
+---
+
+## 🧪 Testes e Validações
+
+Nesta branch, estamos aplicando testes manuais e automatizados para garantir a integridade de funcionalidades novas e modificadas. Algumas abordagens:
+
+- Testes unitários para validação de regras de negócio.
+- Testes de integração para fluxos de transferência e cadastro.
+- Logs mais claros para debug durante o desenvolvimento.
+
+---
+
+## 💡 Tecnologias e Versões Utilizadas
+
+Mesmas da branch `main`, com possíveis atualizações em versões e bibliotecas durante o desenvolvimento:
+
+- Java 23 (não LTS)
 - Spring Boot
 - Spring Data JPA
-- H2 | Banco de Dados H2
+- Banco de dados em memória (H2)
+- JUnit 5
+- Lombok
+- Swagger (planejado)
 
-### 👤 Cadastro de Usuários
-- **Usuários comuns**: Podem enviar e receber dinheiro.
-- **Lojistas**: Apenas recebem transferências.
-- Nome completo, CPF, e-mail e senha são obrigatórios.
-- CPF/CNPJ e e-mails devem ser únicos no sistema.
-- Apenas um cadastro é permitido por CPF ou e-mail.
+---
 
-### 💸 🔄 Regras de Transferência
-- Usuários podem transferir dinheiro entre si e para lojistas.
-- Lojistas apenas recebem transferências, não podem enviar dinheiro.
-- Antes da transferência, o saldo do remetente deve ser validado.
-- O desafio exige um **serviço autorizador externo** via GET, não implementado e substituído por um método randômico boleano.
-- A operação de transferência deve ser uma **transação atômica**.
-- O desafio exige uma **notificação externa** via POST, também não implementado.
+## 🧭 Rodando o Projeto (Modo Desenvolvedor)
 
-## 📌 Endpoints Principais
-
-### **Usuários**
-#### **POST /users**
-##### **Request:**
-```json
-{
-    "firstName":"Fulano",
-    "lastName":"Da Silva",
-    "document":"12345678911",
-    "email":"fulano@gmail.com",
-    "password":"321",
-    "userType": "COMMUN",
-    "balance": 100
-}
-```
-
-### **Transações**
-#### **POST /transactions**
-##### **Request:**
-```json
-{
-    "senderId": 1,
-    "receiverId": 2,
-    "value": 10
-}
-```
-
-## Como Rodar o Projeto
-1. Clone o repositório:
-   ```sh
+1. Clone o repositório e mude para a branch:
+   ```bash
    git clone https://github.com/lopezzd/desafio-picpay
-   ```
-2. Instale as dependências:
-   ```sh
-   mvn install  # Para projetos Maven
-   ```
-3. Configure as variáveis de ambiente (`.env`).
-4. Execute o projeto:
-   ```sh
-   mvn spring-boot:run
-   ```
-
-### 🐝 Licença
-Este projeto está sob a licença MIT.
+   cd desafio-picpay
+   git checkout develop
