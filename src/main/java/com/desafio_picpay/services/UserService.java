@@ -43,15 +43,12 @@ public class UserService {
         return this.repository.findAll();
     }
 
-    /*
     public User deleteUser(UUID id) {
-
         var user = this.repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
-        this.repository.deleteUser(user);
+        this.repository.deleteById(id);
         return user;
     }
-*/
 
 }

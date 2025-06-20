@@ -39,5 +39,24 @@ public class UserController {
     }
 
 
+    @GetMapping("/{id}/transactions")
+    public ResponseEntity<List<TransactionDTO>> getUserTransactions(@PathVariable UUID id) {
+        List<TransactionDTO> transactions = transactionService.getTransactionsByUserId(id);
+        return ResponseEntity.ok(transactions);
+    }
+
+//    @PutMapping(value = "/{id}")
+//    public ResponseEntity<User> deleteUser(@PathVariable String id) throws Exception {
+//        User users = this.userService.deleteUser(id);
+//
+//        return new ResponseEntity<>(users, HttpStatus.OK);
+//    }
+
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) throws Exception {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
