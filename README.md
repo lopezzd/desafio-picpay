@@ -25,7 +25,7 @@ Esta é a branch `develop` do projeto **Desafio PicPay – Simulação de Transa
 
 ## 🧪 Testes e Validações
 
-Nesta branch, estamos aplicando testes manuais e automatizados para garantir a integridade de funcionalidades novas e modificadas. Algumas abordagens:
+Estamos aplicando testes manuais e automatizados para garantir a integridade de funcionalidades novas e modificadas. Algumas abordagens:
 
 - Testes unitários para validação de regras de negócio.
 - Testes de integração para fluxos de transferência e cadastro.
