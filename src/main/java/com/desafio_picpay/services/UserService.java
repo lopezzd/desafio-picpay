@@ -2,6 +2,8 @@ package com.desafio_picpay.services;
 
 import com.desafio_picpay.domain.user.User;
 import com.desafio_picpay.domain.user.UserType;
+import com.desafio_picpay.dto.UpdateUserDTO;
+import com.desafio_picpay.dto.UserDTO;
 import com.desafio_picpay.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,21 @@ public class UserService {
         this.repository.deleteById(id);
         return user;
     }
+
+
+    public User updateUser(UUID id, UpdateUserDTO dto) {
+        var user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        if (dto.firstName() != null && !dto.firstName().isBlank()) user.setFirstName(dto.firstName());
+        if (dto.lastName() != null && !dto.lastName().isBlank()) user.setLastName(dto.lastName());
+        if (dto.email() != null && !dto.email().isBlank()) user.setEmail(dto.email());
+        if (dto.password() != null && !dto.password().isBlank()) user.setPassword(dto.password());
+
+        return repository.save(user);
+    }
+
+
+
 
 }

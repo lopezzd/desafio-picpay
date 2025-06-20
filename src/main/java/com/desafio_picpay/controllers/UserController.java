@@ -2,6 +2,7 @@ package com.desafio_picpay.controllers;
 
 import com.desafio_picpay.domain.user.User;
 import com.desafio_picpay.dto.TransactionDTO;
+import com.desafio_picpay.dto.UpdateUserDTO;
 import com.desafio_picpay.repositories.UserRepository;
 import com.desafio_picpay.services.TransactionService;
 import com.desafio_picpay.services.UserService;
@@ -45,13 +46,11 @@ public class UserController {
         return ResponseEntity.ok(transactions);
     }
 
-//    @PutMapping(value = "/{id}")
-//    public ResponseEntity<User> deleteUser(@PathVariable String id) throws Exception {
-//        User users = this.userService.deleteUser(id);
-//
-//        return new ResponseEntity<>(users, HttpStatus.OK);
-//    }
-
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable UUID id, @RequestBody UpdateUserDTO dto) {
+        var updatedUser = userService.updateUser(id, dto);
+        return ResponseEntity.ok(updatedUser);
+    }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) throws Exception {
