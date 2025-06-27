@@ -1,6 +1,17 @@
 package com.desafio_picpay.dto;
 
-import java.math.BigDecimal;
+import com.desafio_picpay.domain.transaction.Transaction;
 
-public record TransactionDTO(BigDecimal value, Long senderId, Long receiverId) {
+import java.math.BigDecimal;
+import java.util.UUID;
+
+public record TransactionDTO(BigDecimal value, UUID senderId, UUID receiverId) {
+
+    public static TransactionDTO fromEntity(Transaction transaction) {
+        return new TransactionDTO(
+                transaction.getAmount(),
+                transaction.getSender().getId(),
+                transaction.getReceiver().getId()
+        );
+    }
 }

@@ -2,13 +2,16 @@ package com.desafio_picpay.services;
 
 import com.desafio_picpay.domain.user.User;
 import com.desafio_picpay.domain.user.UserType;
+import com.desafio_picpay.dto.UpdateUserDTO;
 import com.desafio_picpay.dto.UserDTO;
 import com.desafio_picpay.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -16,31 +19,54 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public void validateTransaction(User sender, BigDecimal amount) throws Exception{
-        if(sender.getUserType() == UserType.MERCHANT){
+    public void validateTransaction(User sender, BigDecimal amount) throws Exception {
+        if (sender.getUserType() == UserType.MERCHANT) {
             throw new Exception("Autorização negada!");
         }
 
-        if(sender.getBalance().compareTo(amount) < 0){
+        if (sender.getBalance().compareTo(amount) < 0) {
             throw new Exception("Saldo insuficiente!");
         }
     }
 
-    public User findUserById(Long id) throws Exception{
+    public User findUserById(UUID id) throws Exception {
         return this.repository.findUserById(id).orElseThrow(() -> new Exception("Usuário não encontrado!"));
     }
 
-    public void saveUser(User user){
+    public User findUserByDocument(String document) throws Exception {
+        return this.repository.findUserByDocument(document).orElseThrow(() -> new Exception("Usuário não encontrado!"));
+    }
+
+    public void saveUser(User user) {
         this.repository.save(user);
     }
 
-    public User createUser(UserDTO data){
-        User newUser = new User(data);
-        this.saveUser(newUser);
-        return newUser;
-    }
-
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return this.repository.findAll();
     }
+
+    public User deleteUser(UUID id) {
+        var user = this.repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        this.repository.deleteById(id);
+        return user;
+    }
+
+
+    public User updateUser(UUID id, UpdateUserDTO dto) {
+        var user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
+
+        if (dto.firstName() != null && !dto.firstName().isBlank()) user.setFirstName(dto.firstName());
+        if (dto.lastName() != null && !dto.lastName().isBlank()) user.setLastName(dto.lastName());
+        if (dto.email() != null && !dto.email().isBlank()) user.setEmail(dto.email());
+        if (dto.password() != null && !dto.password().isBlank()) user.setPassword(dto.password());
+
+        return repository.save(user);
+    }
+
+
+
+
 }

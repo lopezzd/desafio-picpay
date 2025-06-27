@@ -4,17 +4,15 @@ import com.desafio_picpay.domain.transaction.Transaction;
 import com.desafio_picpay.domain.user.User;
 import com.desafio_picpay.dto.TransactionDTO;
 import com.desafio_picpay.repositories.TransactionRepository;
-import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Map;
+import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class TransactionService {
@@ -65,4 +63,16 @@ public class TransactionService {
         Random random = new Random();
         return random.nextBoolean();
     }
+
+    public List<Transaction> getAllTransactions(){
+        return this.repository.findAll();
+    }
+
+    public List<TransactionDTO> getTransactionsByUserId(UUID userId) {
+        List<Transaction> transactions = this.repository.findBySenderId(userId);
+        return transactions.stream()
+                .map(TransactionDTO::fromEntity)
+                .toList();
+    }
+
 }
