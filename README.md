@@ -1,29 +1,29 @@
-# 🚧 Branch Develop – Em Desenvolvimento
+# Branch Develop – Em Desenvolvimento
 
 Esta é a branch `develop` do projeto **Desafio PicPay – Simulação de Transações**, utilizada para desenvolvimento contínuo, testes e implementação de novas funcionalidades antes de serem promovidas para `main`.
 
-> ⚠️ Esta branch pode conter código instável ou recursos em construção.
+> Esta branch pode conter código instável ou recursos em construção.
 
 ---
 
-## 🔨 Funcionalidades em Desenvolvimento
+## Funcionalidades em Desenvolvimento
 
-### ✅ Refatoração de Código
+### Refatoração de Código
 - Separação de responsabilidades nas camadas `Controller`, `Service` e `Repository`.
 - Uso de exceções customizadas com `@ControllerAdvice` para mensagens mais claras de erro.
 
-### ✅ Melhorias no Processo de Transferência
+### Melhorias no Processo de Transferência
 - Garantia de transações mais seguras e atômicas com rollback em caso de falha.
 - Implementação mais robusta do serviço de autorização (mock).
 
-### ✅ Novas Funcionalidades
+### Novas Funcionalidades
 - Endpoint de **consulta de transações por usuário** (`GET /users/{id}/transactions`).
 - Preparação para envio real de **notificações externas** (POST).
 - Estruturação inicial de testes de integração (JUnit + Testcontainers).
 
 ---
 
-## 🧪 Testes e Validações
+## Testes e Validações
 
 Estamos aplicando testes manuais e automatizados para garantir a integridade de funcionalidades novas e modificadas. Algumas abordagens:
 
@@ -33,7 +33,7 @@ Estamos aplicando testes manuais e automatizados para garantir a integridade de 
 
 ---
 
-## 💡 Tecnologias e Versões Utilizadas
+## Tecnologias e Versões Utilizadas
 
 Mesmas da branch `main`, com possíveis atualizações em versões e bibliotecas durante o desenvolvimento:
 
@@ -47,7 +47,7 @@ Mesmas da branch `main`, com possíveis atualizações em versões e bibliotecas
 
 ---
 
-## 🧭 Rodando o Projeto (Modo Desenvolvedor)
+## Rodando o Projeto (Modo Desenvolvedor)
 
 1. Clone o repositório e mude para a branch:
    ```bash
